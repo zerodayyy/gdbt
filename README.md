@@ -116,10 +116,16 @@ evaluations:
 loop: evaluations.example-services
 lookups:
   service_notification_channel:
-    service1: victorops-team1
-    service2: victorops-team1
-    service3: slack-team2
-    DEFAULT: mail-all
+    service1:
+      - victorops-team1
+      - slack-team1
+    service2:
+      - victorops-team1
+      - mail-all
+    service3:
+      - slack-team2
+    DEFAULT:
+      - mail-all
 model: |
   {
     "panels": [
@@ -127,9 +133,10 @@ model: |
         "alert": {
           "name": "CPU usage high in {{ loop.item }} service",
           "notifications": [
+            {%- for notification_channel in lookups.service_notification_channel[loop.item] | default(lookups.service_notification_channel.DEFAULT) %}
             {
-              "uid": "{{ service_notification_channel[loop.item] | default(service_notification_channel.DEFAULT) }}"
-            }
+              "uid": "{$ notification_channel -$}"
+            }{% if not loop.last %},{% endif %}{% endfor %}
           ]
         },
         "targets": [
