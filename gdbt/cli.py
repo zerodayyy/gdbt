@@ -38,10 +38,12 @@ def check_for_updates():
     try:
         current_version = gdbt.__version__
         upstream_version = (
-            requests.get(url, timeout=1).json().get("name", current_version).lstrip("v")
+            requests.get(url, timeout=2).json().get("name", current_version).lstrip("v")
         )
         if semver.compare(upstream_version, current_version) == 1:
             update = upstream_version
+    except (ValueError, requests.exceptions.RequestException):
+        pass
     finally:
         if update:
             console.print(f"\n[green]New version [bold]{update}[/] is available\n")
@@ -55,6 +57,7 @@ def version() -> None:
     """Get GDBT version"""
     console.print(f"GDBT version {gdbt.__version__}")
     console.print(f"Supported state version: {gdbt.state.state.STATE_VERSION}")
+    print("ITS OK")
     check_for_updates()
 
 
