@@ -57,7 +57,6 @@ def version() -> None:
     """Get GDBT version"""
     console.print(f"GDBT version {gdbt.__version__}")
     console.print(f"Supported state version: {gdbt.state.state.STATE_VERSION}")
-    print("ITS OK")
     check_for_updates()
 
 
