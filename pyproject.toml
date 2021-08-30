@@ -2,6 +2,7 @@
 name = "gdbt"
 version = "2.2.1"
 description = "Use Infrastructure as Code to provision and manage Grafana Dashboards from Templates"
+readme = "README.md"
 authors = ["Dmitry Kovalenko <dmytro.kovalenko@ironsrc.com>"]
 license = "MIT"
 
